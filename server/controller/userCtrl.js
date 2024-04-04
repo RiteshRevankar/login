@@ -91,6 +91,43 @@ const userCtrl = {
         } catch (err) {
             return res.status(500).json(err.message);
         }
+    },
+    updateUser: async (req, res) => {
+        try {
+            const userId = req.params.id;
+            const userData = req.body;
+
+            // Check if user exists
+            const user = await User.findById(userId);
+            if (!user) {
+                return res.status(404).json({ msg: "User not found" });
+            }
+
+            // Update user data
+            user.name = userData.name || user.name;
+            user.email = userData.email || user.email;
+            user.mobile = userData.mobile || user.mobile;
+            user.role = userData.role || user.role;
+
+            await user.save();
+
+            res.json(user);
+        } catch (err) {
+            return res.status(500).json({ msg: err.message });
+        }
+    },
+
+    deleteUser: async (req, res) => {
+        try {
+            const userId = req.params.id;
+
+            const user = await User.findByIdAndDelete(userId);
+
+            return res.status(200).json({ msg: "user deleted successfully" });
+        } catch (err) {
+            console.error("Error deleting user:", err.message);
+            return res.status(500).json({ msg: err.message });
+        }
     }
 
 };

@@ -8,4 +8,7 @@ route.get(`/logout`, userCtrl.logout);
 route.get(`/users`, userCtrl.getUser);
 route.get(`/refToken`, userCtrl.refreshToken);
 
+route.put(`/users/:id`, userCtrl.updateUser);
+route.delete(`/users/:id`, userCtrl.deleteUser);
+
 module.exports = route;
